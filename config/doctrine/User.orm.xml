@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Entity\User" table="user" repository-class="App\Repository\UserRepository">
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="email" type="string" length="180" unique="true"/>
+        <field name="password" type="string"/>
+        <field name="roles" type="json"/>
+        <field name="createdAt" type="datetime"/>
+        <field name="updatedAt" type="datetime"/>
+        <field name="preferredCurrency" type="string" length="3"/>
+        <embedded name="balance" class="App\Entity\ValueObjects\Money"/>
+
+        <one-to-many field="incomes" target-entity="App\Entity\Income" mapped-by="User"/>
+        <one-to-many field="expenses" target-entity="App\Entity\Expense" mapped-by="User"/>
+    </entity>
+</doctrine-mapping>

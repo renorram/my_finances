@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Entity\Income" table="income" repository-class="App\Repository\IncomeRepository">
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="description" type="string"/>
+        <embedded name="amount" class="App\Entity\ValueObjects\Money"/>
+        <embedded name="recurrence" class="App\Entity\ValueObjects\Recurrence" />
+        <field name="received" type="boolean"/>
+        <field name="createdAt" type="datetime"/>
+        <field name="updatedAt" type="datetime"/>
+
+        <many-to-one field="user" target-entity="App\Entity\User" inversed-by="incomes"/>
+    </entity>
+</doctrine-mapping>

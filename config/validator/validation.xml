@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+    <class name="App\Entity\User">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">email</option>
+            <option name="message">This email is already in use.</option>
+            <option name="groups">registration</option>
+        </constraint>
+
+        <property name="email">
+            <constraint name="NotBlank">
+                <option name="groups">registration</option>
+            </constraint>
+            <constraint name="Email">
+                <option name="groups">registration</option>
+            </constraint>
+        </property>
+
+        <property name="password">
+            <constraint name="NotBlank">
+                <option name="groups">registration</option>
+            </constraint>
+        </property>
+    </class>
+
+    <class name="App\Entity\Expense">
+        <property name="user">
+            <constraint name="Valid"/>
+        </property>
+
+        <property name="description">
+            <constraint name="NotBlank"/>
+        </property>
+
+        <property name="amount">
+            <constraint name="NotNull"/>
+        </property>
+
+        <property name="recurrence">
+            <constraint name="NotNull"/>
+        </property>
+    </class>
+
+</constraint-mapping>
