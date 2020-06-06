@@ -8,10 +8,17 @@ use DateTime;
 
 final class UserFactory
 {
-    public static function create(string $email, string $password, string $preferedCurrency): User
-    {
+    public static function create(
+        string $firstName,
+        string $lastName,
+        string $email,
+        string $password,
+        string $preferedCurrency
+    ): User {
         $user = new User();
         $user->setEmail($email)
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
             ->setPreferredCurrency($preferedCurrency)
             ->setPassword($password)
             ->setCreatedAt(new DateTime())

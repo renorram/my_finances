@@ -2,24 +2,23 @@
 
 namespace App\Factory;
 
-use App\Entity\Expense;
+use App\Entity\Income;
 use App\Entity\User;
 use App\Entity\ValueObjects\Money;
 use App\Entity\ValueObjects\Recurrence;
-use App\Service\ExpenseService;
 use DateTime;
 
-final class ExpenseFactory
+final class IncomeFactory
 {
     public static function create(
         string $description,
         User $user,
         Money $amount,
         Recurrence $recurrence
-    ): Expense {
+    ): Income {
         $now = new DateTime();
 
-        return (new Expense())
+        return (new Income())
             ->setDescription($description)
             ->setUser($user)
             ->setAmount($amount)

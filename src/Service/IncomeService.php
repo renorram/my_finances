@@ -2,52 +2,54 @@
 
 namespace App\Service;
 
-use App\Entity\Expense;
+use App\Entity\Income;
 use App\Entity\ValueObjects\Recurrence;
 use App\Exception\DomainValidationException;
-use App\Repository\ExpenseRepository;
+use App\Repository\IncomeRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class ExpenseService
+final class IncomeService
 {
-    private ExpenseRepository $expenseRepository;
+    private IncomeRepository $incomeRepository;
     private ValidatorInterface $validator;
 
     public function __construct(EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
-        $this->expenseRepository = $entityManager->getRepository(Expense::class);
+        $this->incomeRepository = $entityManager->getRepository(Income::class);
         $this->validator = $validator;
     }
 
     /**
-     * @param Expense $expense
-     * @return Expense
+     * @param Income $income
+     *
+     * @return Income
+     *
      * @throws DomainValidationException
      */
-    public function createOrFail(Expense $expense): Expense
+    public function createOrFail(Income $income): Income
     {
-        $errors = $this->validator->validate($expense);
+        $errors = $this->validator->validate($income);
         if (count($errors) > 0) {
             throw new DomainValidationException($errors);
         }
 
-        $expense->setPaid(self::isExpensePaid($expense));
-        $this->expenseRepository->save($expense);
+        $income->setReceived(self::isIncomeReceived($income));
+        $this->incomeRepository->save($income);
 
-        return $expense;
+        return $income;
     }
 
     /**
-     * @param Expense $expense
+     * @param Income $income
      *
      * @return bool
      * @todo use transactions made instead of recurrence type
      */
-    public static function isExpensePaid(Expense $expense): bool
+    public static function isIncomeReceived(Income $income): bool
     {
-        $recurrence = $expense->getRecurrence();
+        $recurrence = $income->getRecurrence();
         $now = new DateTime();
 
         if ($recurrence->getType() === Recurrence::TYPE_NONE) {

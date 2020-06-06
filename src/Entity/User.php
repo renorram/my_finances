@@ -17,6 +17,8 @@ use function array_unique;
 class User implements UserInterface, CreatedAt, UpdatedAt
 {
     private ?int $id;
+    private string $firstName;
+    private string $lastName;
     private string $email;
     private string $password;
     private array $roles = [];
@@ -34,6 +36,42 @@ class User implements UserInterface, CreatedAt, UpdatedAt
     {
         $this->incomes = new ArrayCollection();
         $this->expenses = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName(string $firstName): User
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName(string $lastName): User
+    {
+        $this->lastName = $lastName;
+        return $this;
     }
 
     /**

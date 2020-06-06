@@ -2,5 +2,17 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 index:
-    path: /
-    controller: App\Controller\DefaultController
+  path: /
+  controller: App\Controller\DefaultController
+
+user_register:
+  path: /user
+  methods: [POST]
+  controller: App\Controller\User\CreateUserController
+
+user_get:
+  path: /user/{id}
+  methods: [GET]
+  controller: App\Controller\User\GetUserController
+  requirements:
+    id: '\d+'

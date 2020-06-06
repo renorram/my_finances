@@ -9,6 +9,8 @@ use App\Entity\Interfaces\UpdatedAt;
 use App\Entity\ValueObjects\Money;
 use App\Entity\ValueObjects\Recurrence;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Expense implements CreatedAt, UpdatedAt
 {
@@ -17,9 +19,18 @@ class Expense implements CreatedAt, UpdatedAt
     private string $description;
     private Money $amount;
     private Recurrence $recurrence;
-    private bool $paid;
+    private bool $paid = false;
     private DateTimeInterface $createdAt;
     private DateTimeInterface $updatedAt;
+    private Collection $transactions;
+
+    /**
+     * Expense constructor.
+     */
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -153,6 +164,37 @@ class Expense implements CreatedAt, UpdatedAt
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(ExpenseTransaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setExpense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(ExpenseTransaction $transaction): self
+    {
+        if ($this->transactions->contains($transaction)) {
+            $this->transactions->removeElement($transaction);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getExpense() === $this) {
+                $transaction->setExpense(null);
+            }
+        }
 
         return $this;
     }

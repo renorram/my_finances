@@ -26,7 +26,13 @@ final class ExpenseServiceTest extends AbstractKernelTestCase
 
     public function testIfCanCreateExpense()
     {
-        $user = UserFactory::create($this->faker->email, $this->faker->password, $this->faker->currencyCode);
+        $user = UserFactory::create(
+            $this->faker->firstName,
+            $this->faker->lastName,
+            $this->faker->email,
+            $this->faker->password,
+            $this->faker->currencyCode
+        );
         $money = Money::createForUser(0, $user);
         $this->userService->registerUserOrFail($user);
 

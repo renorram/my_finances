@@ -10,6 +10,18 @@
             <option name="groups">registration</option>
         </constraint>
 
+        <property name="firstName">
+            <constraint name="NotBlank">
+                <option name="groups">registration</option>
+            </constraint>
+        </property>
+
+        <property name="lastName">
+            <constraint name="NotBlank">
+                <option name="groups">registration</option>
+            </constraint>
+        </property>
+
         <property name="email">
             <constraint name="NotBlank">
                 <option name="groups">registration</option>

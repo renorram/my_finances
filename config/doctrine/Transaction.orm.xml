@@ -3,18 +3,19 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="App\Entity\Income" table="income" repository-class="App\Repository\IncomeRepository">
+    <entity name="App\Entity\Transaction" table="transactions" inheritance-type="SINGLE_TABLE" repository-class="App\Repository\TransactionRepository">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
-        <field name="description" type="string"/>
-        <embedded name="amount" class="App\Entity\ValueObjects\Money"/>
-        <embedded name="recurrence" class="App\Entity\ValueObjects\Recurrence" />
-        <field name="received" type="boolean"/>
+
+        <field name="description" type="string" />
         <field name="createdAt" type="datetime"/>
         <field name="updatedAt" type="datetime"/>
-
-        <one-to-many field="transactions" target-entity="App\Entity\IncomeTransaction" mapped-by="income"/>
-        <many-to-one field="user" target-entity="App\Entity\User" inversed-by="incomes"/>
+        
+        <discriminator-column name="type" type="string"/>
+        <discriminator-map>
+            <discriminator-mapping value="expense" class="App\Entity\ExpenseTransaction"/>
+            <discriminator-mapping value="income" class="App\Entity\IncomeTransaction"/>
+        </discriminator-map>
     </entity>
 </doctrine-mapping>

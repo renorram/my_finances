@@ -14,6 +14,7 @@
         <field name="createdAt" type="datetime"/>
         <field name="updatedAt" type="datetime"/>
 
+        <one-to-many field="transactions" target-entity="App\Entity\ExpenseTransaction" mapped-by="expense"/>
         <many-to-one field="user" target-entity="App\Entity\User" inversed-by="expenses"/>
     </entity>
 </doctrine-mapping>

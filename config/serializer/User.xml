@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+        https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="App\Entity\User">
+        <attribute name="id">
+            <group>default</group>
+            <group>details</group>
+        </attribute>
+
+        <attribute name="firstName">
+            <group>default</group>
+            <group>details</group>
+            <group>registration</group>
+        </attribute>
+
+        <attribute name="lastName">
+            <group>default</group>
+            <group>details</group>
+            <group>registration</group>
+        </attribute>
+
+        <attribute name="email">
+            <group>default</group>
+            <group>details</group>
+            <group>registration</group>
+        </attribute>
+
+        <attribute name="password">
+            <group>registration</group>
+        </attribute>
+
+        <attribute name="roles">
+            <group>default</group>
+            <group>details</group>
+        </attribute>
+
+        <attribute name="createdAt">
+            <group>default</group>
+            <group>details</group>
+        </attribute>
+
+        <attribute name="updatedAt">
+            <group>default</group>
+            <group>details</group>
+        </attribute>
+
+        <attribute name="balance">
+            <group>default</group>
+            <group>details</group>
+        </attribute>
+
+        <attribute name="preferredCurrency">
+            <group>default</group>
+            <group>details</group>
+            <group>registration</group>
+        </attribute>
+    </class>
+</serializer>

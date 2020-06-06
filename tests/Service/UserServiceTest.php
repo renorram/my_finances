@@ -31,7 +31,13 @@ class UserServiceTest extends AbstractKernelTestCase
 
     public function testItShouldRegisterUser()
     {
-        $user = UserFactory::create($this->faker->email, $this->faker->password, 'USD');
+        $user = UserFactory::create(
+            $this->faker->firstName,
+            $this->faker->lastName,
+            $this->faker->email,
+            $this->faker->password,
+            $this->faker->currencyCode
+        );
 
         $this->userService->registerUserOrFail($user);
 

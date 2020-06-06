@@ -9,6 +9,8 @@ use App\Entity\Interfaces\UpdatedAt;
 use App\Entity\ValueObjects\Money;
 use App\Entity\ValueObjects\Recurrence;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class Income implements CreatedAt, UpdatedAt
 {
@@ -17,9 +19,15 @@ class Income implements CreatedAt, UpdatedAt
     private string $description;
     private Money $amount;
     private Recurrence $recurrence;
-    private bool $received;
+    private bool $received = false;
     private DateTimeInterface $createdAt;
     private DateTimeInterface $updatedAt;
+    private Collection $transactions;
+
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +128,37 @@ class Income implements CreatedAt, UpdatedAt
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(IncomeTransaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setIncome($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(IncomeTransaction $transaction): self
+    {
+        if ($this->transactions->contains($transaction)) {
+            $this->transactions->removeElement($transaction);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getIncome() === $this) {
+                $transaction->setIncome(null);
+            }
+        }
 
         return $this;
     }
